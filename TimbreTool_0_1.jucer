@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Wul94e" name="TimbreTool_0_1" projectType="consoleapp" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              jucerVersion="5.4.1">
   <MAINGROUP id="sShOO7" name="TimbreTool_0_1">
+    <GROUP id="{5975E0C4-E60B-281F-7F72-6DF7C03DB36C}" name="Navigation">
+      <FILE id="howQw3" name="Menu.cpp" compile="1" resource="0" file="Source/Menu.cpp"/>
+      <FILE id="C1yvPZ" name="Menu.h" compile="0" resource="0" file="Source/Menu.h"/>
+    </GROUP>
     <GROUP id="{D03A8B05-65EB-2161-F953-6F03C3ED45BB}" name="Source">
       <GROUP id="{B5DC8AEE-BF3C-06AF-A6BE-A9E5AC69A3C2}" name="Data">
         <FILE id="NPlPwm" name="Category.cpp" compile="1" resource="0" file="Source/Category.cpp"/>
