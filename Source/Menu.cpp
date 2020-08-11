@@ -14,11 +14,11 @@ Menu::Menu(){}// : Thread::Thread("MainMenu") {}
 
 Menu::~Menu()
 {
-    std::cout << "Thread killed by force";
+    std::cout << "Menu killed";
     //this->stopThread(1000);
 }
 
-void Menu::run()
+void Menu::run(std::unique_ptr<std::vector<Clip>> &clips)
 {
     // Private variables
     running = true;

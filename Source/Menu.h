@@ -10,6 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "Clip.h"
 
 class Menu// : public juce::Thread
 {
@@ -23,5 +24,5 @@ private:
 public:
     Menu();
     ~Menu();// override;
-    void run();// override;
+    void run(std::unique_ptr<std::vector<Clip>> &clips);// override;
 };

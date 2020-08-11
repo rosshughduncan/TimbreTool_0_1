@@ -1,29 +1,36 @@
-/*
-  ==============================================================================
-
-    This file contains the basic startup code for a JUCE application.
-
-  ==============================================================================
-*/
-
 #include <JuceHeader.h>
 #include "Menu.h"
 #include <thread>
+#include "Clip.h"
 
-//==============================================================================
 int main (int argc, char* argv[])
 {
-    // Run menu thread
-    std::unique_ptr<Menu> mainMenu(new Menu());
-    std::thread menuThread{mainMenu->run()};
-    menuThread.join();
-    //std::thread menuThread([&mainMenu]() { mainMenu->run(); });
+    /**
+    * Variables
+    */
+        
+    // Storage of audio clips
+    std::unique_ptr<std::vector<Clip>> clips(new std::vector<Clip>());
     
-    //Menu *mainMenu = new Menu();
-    //mainMenu->startThread();
-    //mainMenu->stopThread(1000);
-    //delete mainMenu;
-
+    /**
+    * Main threads
+    */
+    
+    // Add server listener code here
+    //******************************
+    
+    // Run menu thread
+    Menu mainMenu;
+    std::thread menuThread([&mainMenu, &clips] { mainMenu.run(clips); });
+    menuThread.join();
     
     return 0;
 }
+
+/**
+ * Old code
+ */
+
+//std::thread menuThread(&Menu::run, &mainMenu);
+//std::thread menuThread(mainMenu.run, clips);
+//std::thread menuThread(mainMenu.run(clips));

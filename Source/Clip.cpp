@@ -10,3 +10,6 @@
 
 #include "Clip.h"
 
+Clip::Clip(std::string filePath) {}
+
+Clip::~Clip() {}

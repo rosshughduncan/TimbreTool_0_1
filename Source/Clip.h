@@ -15,4 +15,5 @@ class Clip
 {
 public:
     Clip (std::string filePath);
+    ~Clip();
 };
