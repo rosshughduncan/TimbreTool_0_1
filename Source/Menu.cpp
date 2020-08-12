@@ -10,7 +10,22 @@
 
 #include "Menu.h"
 
-Menu::Menu(){}// : Thread::Thread("MainMenu") {}
+Menu::Menu()// : Thread::Thread("MainMenu") {}
+{
+    // Set default windowing function to Rectangular
+    windowOption = 0;
+    
+    // Set references to windowing method enums
+    windowFuncs = std::make_unique<WindowMethodRef[]>(8);
+    windowFuncs[0].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
+    windowFuncs[1].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
+    windowFuncs[2].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
+    windowFuncs[3].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hamming;
+    windowFuncs[4].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackman;
+    windowFuncs[5].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackmanHarris;
+    windowFuncs[6].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
+    windowFuncs[7].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
+}
 
 Menu::~Menu()
 {
@@ -18,7 +33,7 @@ Menu::~Menu()
     //this->stopThread(1000);
 }
 
-void Menu::run(std::unique_ptr<std::vector<Clip>> &clips)
+void Menu::run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef)
 {
     // Private variables
     running = true;
@@ -27,7 +42,7 @@ void Menu::run(std::unique_ptr<std::vector<Clip>> &clips)
     do {
         // Menu section
         std::cout << "Welcome to TimbreTool." << std::endl << std::endl;
-        std::cout << "Enter a key based on one of the options:" << std::endl;
+        std::cout << "Enter a key based on one of the options and press enter:" << std::endl;
         std::cout << "1) Set transient detection settings" << std::endl;
         std::cout << "2) Set windowing settings" << std::endl;
         std::cout << "3 Add new audio file" << std::endl;
@@ -46,7 +61,11 @@ void Menu::run(std::unique_ptr<std::vector<Clip>> &clips)
                 break;
                 
             case 2:
-                // Windowing settings
+                /**
+                 * Windowing settings
+                 */
+                
+                // Show windowing settings
                 std::cout << std::endl << "Enter a number from the following list of windowing functions:"
                     << std::endl << "1) Rectangular"
                     << std::endl << "2) Triangular"
@@ -56,17 +75,21 @@ void Menu::run(std::unique_ptr<std::vector<Clip>> &clips)
                     << std::endl << "6) Blackman-Harris"
                     << std::endl << "7) Flat Top"
                     << std::endl << "8) Kaiser";
-                windowOptionSelected = validShortInput();
-                std::cout << std::endl << "Enter the number of frames for the whole file:";
-                framesFile = intGreaterThan0();
-                std::cout << "Enter the number of frames for each transient:";
-                framesTransient = intGreaterThan0();
+                
+                // Store the enum stored at the index chosen by the user, set to zero indexing
+                windowOption = validShortInput() - 1;
+                std::cout << std::endl << "Enter frame length (ms):";
+                framesFile = doubleGreaterThan0();
                 break;
                 
             case 3:
                 // Add new audio file
                 std::cout << std::endl << "Enter the address of the file or drag it into this window:";
-                
+                filePath = validString("file path");
+                std::cout << std::endl << "Enter a name for this file:";
+                fileName = validString("name");
+                Clip newClip = new Clip(filePath, fileName, formatManRef, windowFuncs[windowOption].ref);
+                clips->push_back(newClip);
                 break;
                 
             case 4:
@@ -139,13 +162,13 @@ int Menu::validIntInput ()
     return temp;
 }
 
-int Menu::intGreaterThan0 ()
+double Menu::doubleGreaterThan0 ()
 {
-    int temp;
+    double temp;
     
     while (true) {
         temp = validIntInput();
-        if (temp < 1) {
+        if (temp <= 0.0) {
             std::cout << std::endl << "Invalid number. It must be greater than 0. Please try again." << std::endl;
         }
         else {
@@ -156,14 +179,14 @@ int Menu::intGreaterThan0 ()
     return temp;
 }
 
-std::string Menu::validPath()
+std::string Menu::validString(std::string stringType)
 {
     std::string temp;
     
     while (true) {
         std::cin >> temp;
         if (temp.length() == 0) {
-            std::cout << std::endl << "You have not entered a file path. Please try again." << std::endl;
+            std::cout << std::endl << "You have not entered a " << stringType << ". Please try again." << std::endl;
         }
         else {
             break;

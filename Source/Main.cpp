@@ -11,6 +11,8 @@ int main (int argc, char* argv[])
         
     // Storage of audio clips
     std::unique_ptr<std::vector<Clip>> clips(new std::vector<Clip>());
+    // Format manager
+    juce::AudioFormatManager formatManager;
     
     /**
     * Main threads
@@ -21,7 +23,7 @@ int main (int argc, char* argv[])
     
     // Run menu thread
     Menu mainMenu;
-    std::thread menuThread([&mainMenu, &clips] { mainMenu.run(clips); });
+    std::thread menuThread([&mainMenu, &clips, &formatManager] { mainMenu.run(clips, formatManager); });
     menuThread.join();
     
     return 0;
