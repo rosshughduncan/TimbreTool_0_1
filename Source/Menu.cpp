@@ -10,6 +10,8 @@
 
 #include "Menu.h"
 
+
+
 Menu::Menu()// : Thread::Thread("MainMenu") {}
 {
     // Set default windowing function to Rectangular
@@ -25,10 +27,17 @@ Menu::Menu()// : Thread::Thread("MainMenu") {}
     windowFuncs[5].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackmanHarris;
     windowFuncs[6].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
     windowFuncs[7].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
+    
+    // Set references to functions
+    menuFunctions = std::make_unique<VoidRef[]>(5);
+    //transientDetectionSettings = std::make_unique<void>();
+    menuFunctions[0].ref = std::move(transientDetectionSettings);
 }
 
 Menu::~Menu()
 {
+    // Delete
+    
     std::cout << "Menu killed";
     //this->stopThread(1000);
 }
@@ -194,4 +203,29 @@ std::string Menu::validString(std::string stringType)
     }
     
     return temp;
+}
+
+std::unique_ptr<void> Menu::transientDetectionSettings()
+{
+
+}
+
+std::unique_ptr<void> Menu::windowingSettings()
+{
+
+}
+
+std::unique_ptr<void> Menu::addNewAudioFile()
+{
+
+}
+
+std::unique_ptr<void> Menu::viewProperties()
+{
+
+}
+
+std::unique_ptr<void> Menu::exit()
+{
+    
 }

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="Wul94e" name="TimbreTool_0_1" projectType="consoleapp" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
+              jucerVersion="5.4.1">
   <MAINGROUP id="sShOO7" name="TimbreTool_0_1">
     <GROUP id="{8AF84448-9AA9-2F9C-0AAD-FDBC4672A238}" name="Structs">
-      <FILE id="lTJ2KT" name="SplitTime.h" compile="0" resource="0" file="Source/SplitTime.h"/>
-      <FILE id="p8ljJD" name="WindowMethodRef.h" compile="0" resource="0"
+      <FILE id="KS27l9" name="WindowMethodRef.h" compile="0" resource="0"
             file="Source/WindowMethodRef.h"/>
+      <FILE id="lTJ2KT" name="SplitTime.h" compile="0" resource="0" file="Source/SplitTime.h"/>
+      <FILE id="p8ljJD" name="VoidRef.h" compile="0" resource="0" file="Source/VoidRef.h"/>
     </GROUP>
     <GROUP id="{5975E0C4-E60B-281F-7F72-6DF7C03DB36C}" name="Navigation">
       <FILE id="howQw3" name="Menu.cpp" compile="1" resource="0" file="Source/Menu.cpp"/>

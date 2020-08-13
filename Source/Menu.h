@@ -12,6 +12,7 @@
 #include <JuceHeader.h>
 #include "Clip.h"
 #include "WindowMethodRef.h"
+#include "VoidRef.h"
 
 class Menu// : public juce::Thread
 {
@@ -22,6 +23,10 @@ private:
     double detectionFreq, highFreqWeight, validDoubleInput(), framesFile, doubleGreaterThan0();
     std::string validString(std::string stringType), filePath, fileName;
     std::unique_ptr<WindowMethodRef[]> windowFuncs;
+    //WindowMethodRef windowFuncs[8];
+    //void *transientDetectionSettings(), *windowingSettings(), *addNewAudioFile(), *viewProperties(), *exit();
+    std::unique_ptr<void> transientDetectionSettings, windowingSettings, addNewAudioFile, viewProperties, exit;
+    std::unique_ptr<VoidRef[]> menuFunctions;
 
 public:
     Menu();

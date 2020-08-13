@@ -1,17 +1,21 @@
 /*
   ==============================================================================
 
-    WindowMethodRef.h
-    Created: 12 Aug 2020 10:31:27pm
+    FunctionRef.h
+    Created: 13 Aug 2020 11:40:56pm
     Author:  Ross Duncan
 
   ==============================================================================
 */
 
 #pragma once
-#include <JuceHeader.h>
 
-struct WindowMethodRef
+struct VoidRef
 {
-    juce::dsp::WindowingFunction<double>::WindowingMethod &ref;
+    std::unique_ptr<void> ref;
 };
+
+//struct WindowMethodRef
+//{
+//    juce::dsp::WindowingFunction<double>::WindowingMethod &ref;
+//};
