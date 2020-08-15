@@ -10,6 +10,7 @@
 
 #include "Clip.h"
 
+// "Return type of out-of-line definition" error shows here
 Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef) : path(filePath), name(fileName), windowMethodRef(windowRef)
 {
     std::cout << "Loading new clip...";

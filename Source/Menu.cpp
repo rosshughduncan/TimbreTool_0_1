@@ -10,9 +10,8 @@
 
 #include "Menu.h"
 
-
-
-Menu::Menu()// : Thread::Thread("MainMenu") {}
+// : Thread::Thread("MainMenu") {}
+Menu::Menu(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef) : clipsRef(clips), formatManReference(formatManRef)
 {
     // Set default windowing function to Rectangular
     windowOption = 0;
@@ -28,21 +27,23 @@ Menu::Menu()// : Thread::Thread("MainMenu") {}
     windowFuncs[6].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
     windowFuncs[7].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
     
-    // Set references to functions
+    // Set references to menu functions
     menuFunctions = std::make_unique<VoidRef[]>(5);
-    //transientDetectionSettings = std::make_unique<void>();
-    menuFunctions[0].ref = std::move(transientDetectionSettings);
+    menuFunctions[0].ref = Menu::transientDetectionSettings();
+    menuFunctions[1].ref = Menu::windowingSettings();
+    menuFunctions[2].ref = Menu::addNewAudioFile();
+    menuFunctions[3].ref = Menu::viewProperties();
+    menuFunctions[4].ref = Menu::exit();
 }
 
 Menu::~Menu()
 {
-    // Delete
-    
     std::cout << "Menu killed";
     //this->stopThread(1000);
 }
 
-void Menu::run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef)
+//void Menu::run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef)
+void Menu::run()
 {
     // Private variables
     running = true;
@@ -57,60 +58,12 @@ void Menu::run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManag
         std::cout << "3 Add new audio file" << std::endl;
         std::cout << "4) View properties of an existing file" << std::endl;
         std::cout << "5) Exit";
-        menuOptionSelected = validShortInput();
+        menuOptionSelected = validShortInput() - 1;
         
-        // Key selection test
-        switch (menuOptionSelected) {
-            case 1:
-                // Transient detection settings
-                std::cout << std::endl << "Enter detection frequency crossover (Hz): ";
-                detectionFreq = validDoubleInput();
-                std::cout << std::endl << "Enter high frequency weighting (dB): ";
-                highFreqWeight = validDoubleInput();
-                break;
-                
-            case 2:
-                /**
-                 * Windowing settings
-                 */
-                
-                // Show windowing settings
-                std::cout << std::endl << "Enter a number from the following list of windowing functions:"
-                    << std::endl << "1) Rectangular"
-                    << std::endl << "2) Triangular"
-                    << std::endl << "3) Hann"
-                    << std::endl << "4) Hamming"
-                    << std::endl << "5) Blackman"
-                    << std::endl << "6) Blackman-Harris"
-                    << std::endl << "7) Flat Top"
-                    << std::endl << "8) Kaiser";
-                
-                // Store the enum stored at the index chosen by the user, set to zero indexing
-                windowOption = validShortInput() - 1;
-                std::cout << std::endl << "Enter frame length (ms):";
-                framesFile = doubleGreaterThan0();
-                break;
-                
-            case 3:
-                // Add new audio file
-                std::cout << std::endl << "Enter the address of the file or drag it into this window:";
-                filePath = validString("file path");
-                std::cout << std::endl << "Enter a name for this file:";
-                fileName = validString("name");
-                Clip newClip = new Clip(filePath, fileName, formatManRef, windowFuncs[windowOption].ref);
-                clips->push_back(newClip);
-                break;
-                
-            case 4:
-                // View properties of existing file
-                
-                break;
-                
-            case 5:
-                // Exit
-                running = false;
-                break;
-        }
+        // Execute the appropriate function according to the input number
+//        auto currentFunc = menuFunctions[menuOptionSelected].ref.release();
+//        ((void(*)())currentFunc)();
+        ((void(*)())menuFunctions[menuOptionSelected].ref.release())();
     } while (running);
 }
 
@@ -207,25 +160,54 @@ std::string Menu::validString(std::string stringType)
 
 std::unique_ptr<void> Menu::transientDetectionSettings()
 {
-
+    // Transient detection settings
+    std::cout << std::endl << "Enter detection frequency crossover (Hz): ";
+    detectionFreq = validDoubleInput();
+    std::cout << std::endl << "Enter high frequency weighting (dB): ";
+    highFreqWeight = validDoubleInput();
 }
 
 std::unique_ptr<void> Menu::windowingSettings()
 {
-
+    /**
+     * Windowing settings
+     */
+    
+    // Show windowing settings
+    std::cout << std::endl << "Enter a number from the following list of windowing functions:"
+        << std::endl << "1) Rectangular"
+        << std::endl << "2) Triangular"
+        << std::endl << "3) Hann"
+        << std::endl << "4) Hamming"
+        << std::endl << "5) Blackman"
+        << std::endl << "6) Blackman-Harris"
+        << std::endl << "7) Flat Top"
+        << std::endl << "8) Kaiser";
+    
+    // Store the enum stored at the index chosen by the user, set to zero indexing
+    windowOption = validShortInput() - 1;
+    std::cout << std::endl << "Enter frame length (ms):";
+    framesFile = doubleGreaterThan0();
 }
 
 std::unique_ptr<void> Menu::addNewAudioFile()
 {
-
+    // Add new audio file
+    std::cout << std::endl << "Enter the address of the file or drag it into this window:";
+    filePath = validString("file path");
+    std::cout << std::endl << "Enter a name for this file:";
+    fileName = validString("name");
+    Clip newClip = new Clip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref);
+    clipsRef->push_back(newClip);
 }
 
 std::unique_ptr<void> Menu::viewProperties()
 {
-
+    // View properties of existing file
 }
 
 std::unique_ptr<void> Menu::exit()
 {
-    
+    // Exit by setting flag to false
+    running = false;
 }

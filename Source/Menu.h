@@ -23,13 +23,15 @@ private:
     double detectionFreq, highFreqWeight, validDoubleInput(), framesFile, doubleGreaterThan0();
     std::string validString(std::string stringType), filePath, fileName;
     std::unique_ptr<WindowMethodRef[]> windowFuncs;
-    //WindowMethodRef windowFuncs[8];
-    //void *transientDetectionSettings(), *windowingSettings(), *addNewAudioFile(), *viewProperties(), *exit();
-    std::unique_ptr<void> transientDetectionSettings, windowingSettings, addNewAudioFile, viewProperties, exit;
+    std::unique_ptr<void> transientDetectionSettings(), windowingSettings(), addNewAudioFile(), viewProperties(), exit();
     std::unique_ptr<VoidRef[]> menuFunctions;
+    //void currentFunc();
+    std::unique_ptr<std::vector<Clip>> &clipsRef;
+    juce::AudioFormatManager &formatManReference;
 
 public:
-    Menu();
+    Menu(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef);
     ~Menu();// override;
-    void run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef);// override;
+    //void run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef);// override;
+    void run();
 };

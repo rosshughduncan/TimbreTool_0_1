@@ -22,8 +22,9 @@ int main (int argc, char* argv[])
     //******************************
     
     // Run menu thread
-    Menu mainMenu;
-    std::thread menuThread([&mainMenu, &clips, &formatManager] { mainMenu.run(clips, formatManager); });
+    Menu mainMenu(clips, formatManager);
+    //std::thread menuThread([&mainMenu, &clips, &formatManager] { mainMenu.run(clips, formatManager); });
+    std::thread menuThread([&mainMenu] { mainMenu.run(); });
     menuThread.join();
     
     return 0;

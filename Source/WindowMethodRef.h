@@ -10,12 +10,12 @@
 
 #pragma once
 
-struct VoidRef
-{
-    std::unique_ptr<void> ref;
-};
-
-//struct WindowMethodRef
+//struct VoidRef
 //{
-//    juce::dsp::WindowingFunction<double>::WindowingMethod &ref;
+//    std::unique_ptr<void> &ref;
 //};
+
+struct WindowMethodRef
+{
+    juce::dsp::WindowingFunction<double>::WindowingMethod &ref;
+};

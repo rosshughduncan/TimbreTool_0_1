@@ -13,7 +13,7 @@
 
 struct VoidRef
 {
-    std::unique_ptr<void> ref;
+    std::unique_ptr<void> &ref;
 };
 
 struct WindowMethodRef

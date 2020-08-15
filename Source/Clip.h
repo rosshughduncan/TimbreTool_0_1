@@ -25,4 +25,3 @@ private:
     juce::AudioBuffer<float>* audioBuffer;
     juce::dsp::WindowingFunction<double>::WindowingMethod &windowMethodRef;
 };
-*
