@@ -1,22 +1,20 @@
 /*
   ==============================================================================
 
-    WindowMethodRef.h
-    Created: 12 Aug 2020 10:31:27pm
+    Refs.h
+    Created: 16 Aug 2020 6:15:34pm
     Author:  Ross Duncan
 
   ==============================================================================
 */
-
-//struct VoidRef;
-//struct WindowMethodRef;
 
 #pragma once
 #include <JuceHeader.h>
 
 struct VoidRef
 {
-    std::unique_ptr<void> &ref;
+    //std::unique_ptr<void> ref;
+    void *ref;
 };
 
 struct WindowMethodRef

@@ -2,7 +2,7 @@
   ==============================================================================
 
     Menu.cpp
-    Created: 10 Aug 2020 7:11:43pm
+    Created: 16 Aug 2020 6:16:02pm
     Author:  Ross Duncan
 
   ==============================================================================
@@ -10,15 +10,13 @@
 
 #include "Menu.h"
 
-// : Thread::Thread("MainMenu") {}
-//Menu::Menu(std::unique_ptr<std::vector<std::unique_ptr<Clip>>> &clips, juce::AudioFormatManager &formatManRef) : clipsRef(clips), formatManReference(formatManRef)
-Menu::Menu(std::unique_ptr<std::vector<std::unique_ptr<Category>>> &categories, std::unique_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef) : categoryRef(categories), catListRef(categoryListRef), formatManReference(formatManRef)
+Menu::Menu(std::unique_ptr<std::vector<std::unique_ptr<Category>>> &categories, std::unique_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef) : windowOption(0), windowFuncs(std::make_unique<WindowMethodRef[]>(8)), menuFuncs(new std::array<std::function<void>, 5>()),/*, menuFunctions(std::make_unique<VoidRef[]>(5))*/ categoryRef(categories), catListRef(categoryListRef), formatManReference(formatManRef)
 {
     // Set default windowing function to Rectangular
-    windowOption = 0;
+    //windowOption = 0;
     
     // Set references to windowing method enums
-    windowFuncs = std::make_unique<WindowMethodRef[]>(8);
+    //windowFuncs = std::make_unique<WindowMethodRef[]>(8);
     windowFuncs[0].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
     windowFuncs[1].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
     windowFuncs[2].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
@@ -29,21 +27,29 @@ Menu::Menu(std::unique_ptr<std::vector<std::unique_ptr<Category>>> &categories, 
     windowFuncs[7].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
     
     // Set references to menu functions
-    menuFunctions = std::make_unique<VoidRef[]>(5);
-    menuFunctions[0].ref = Menu::transientDetectionSettings();
-    menuFunctions[1].ref = Menu::windowingSettings();
-    menuFunctions[2].ref = Menu::addNewAudioFile();
-    menuFunctions[3].ref = Menu::viewProperties();
-    menuFunctions[4].ref = Menu::exit();
+    menuFuncs[0] = [this] { transientDetectionSettings(); };
+    menuFuncs[1] = [this] { windowingSettings(); };
+    menuFuncs[2] = [this] { addNewAudioFile(); };
+    menuFuncs[3] = [this] { viewProperties(); };
+    menuFuncs[4] = [this] { exit(); };
+    
+    //menuFunctions[0].ref = Menu::*transientDetectionSettings();
+    
+    //menuFunctions[0].ref = Menu::transientDetectionSettings();
+    //menuFunctions[0].ref = std::make_unique<void>(Menu::transientDetectionSettings());
+//    menuFunctions[1].ref = Menu::windowingSettings();
+//    menuFunctions[2].ref = Menu::addNewAudioFile();
+//    menuFunctions[3].ref = Menu::viewProperties();
+//    menuFunctions[4].ref = Menu::exit();
+    //menuFunctions[0].ref = &Menu::transientDetectionSettings();
 }
 
 Menu::~Menu()
 {
+    delete menuFuncs;
     std::cout << "Menu killed";
-    //this->stopThread(1000);
 }
 
-//void Menu::run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef)
 void Menu::run()
 {
     // Private variables
@@ -62,9 +68,7 @@ void Menu::run()
         menuOptionSelected = validShortInput() - 1;
         
         // Execute the appropriate function according to the input number
-//        auto currentFunc = menuFunctions[menuOptionSelected].ref.release();
-//        ((void(*)())currentFunc)();
-        ((void(*)())menuFunctions[menuOptionSelected].ref.release())();
+        //((void(*)())menuFunctions[menuOptionSelected].ref.release())();
     } while (running);
 }
 
@@ -159,7 +163,8 @@ std::string Menu::validString(std::string stringType)
     return temp;
 }
 
-std::unique_ptr<void> Menu::transientDetectionSettings()
+void Menu::transientDetectionSettings()
+//std::unique_ptr<void> Menu::transientDetectionSettings()
 {
     // Transient detection settings
     std::cout << std::endl << "Enter detection frequency crossover (Hz): ";
@@ -168,7 +173,8 @@ std::unique_ptr<void> Menu::transientDetectionSettings()
     highFreqWeight = validDoubleInput();
 }
 
-std::unique_ptr<void> Menu::windowingSettings()
+//std::unique_ptr<void> Menu::windowingSettings()
+void Menu::windowingSettings()
 {
     /**
      * Windowing settings
@@ -191,7 +197,8 @@ std::unique_ptr<void> Menu::windowingSettings()
     framesFile = doubleGreaterThan0();
 }
 
-std::unique_ptr<void> Menu::addNewAudioFile()
+//std::unique_ptr<void> Menu::addNewAudioFile()
+void Menu::addNewAudioFile()
 {
     // Enter details for new audio file
     std::cout << std::endl << "Enter the address of the file or drag it into this window:";
@@ -202,19 +209,29 @@ std::unique_ptr<void> Menu::addNewAudioFile()
     fileCategory = validString("category");
     
     // Find if category already exists. If not, add a new one
-    
-    
-    //Clip newClip = new Clip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref);
-    //std::unique_ptr<Clip> newClip(new Clip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref));
-    //clipsRef->push_back(newClip);
+    auto begin = catListRef->begin();
+    auto end = catListRef->end();
+    auto findResult = std::find(begin, end, fileCategory);
+    if (findResult != end) {
+        foundIndex = (int)std::distance(begin, findResult);
+        categoryRef->at(foundIndex)->AddNewClip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref);
+    }
+    else {
+        catListRef->push_back(fileCategory);
+        std::unique_ptr<Category> newCategory(new Category());
+        newCategory->AddNewClip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref);
+        categoryRef->push_back(newCategory);
+    }
 }
 
-std::unique_ptr<void> Menu::viewProperties()
+//std::unique_ptr<void> Menu::viewProperties()
+void Menu::viewProperties()
 {
     // View properties of existing file
 }
 
-std::unique_ptr<void> Menu::exit()
+//std::unique_ptr<void> Menu::exit()
+void Menu::exit()
 {
     // Exit by setting flag to false
     running = false;

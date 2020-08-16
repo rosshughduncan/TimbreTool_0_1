@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    FunctionRef.h
-    Created: 13 Aug 2020 11:40:56pm
+    TimeStructs.h
+    Created: 13 Jun 2020 6:40:26pm
     Author:  Ross Duncan
 
   ==============================================================================
@@ -10,7 +10,7 @@
 
 #pragma once
 
-struct WindowMethodRef
+struct splitTime
 {
-    juce::dsp::WindowingFunction<double>::WindowingMethod &ref;
+    int hours, mins, secs, millisecs;
 };

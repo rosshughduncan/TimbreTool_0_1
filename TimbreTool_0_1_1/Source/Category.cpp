@@ -2,7 +2,7 @@
   ==============================================================================
 
     Category.cpp
-    Created: 9 Aug 2020 6:43:18pm
+    Created: 16 Aug 2020 6:16:11pm
     Author:  Ross Duncan
 
   ==============================================================================
@@ -17,10 +17,10 @@ Category::Category()
 
 Category::~Category()
 {
-    
 }
 
-Category::AddNewClip(std::string filePath, std::string fileName)
+void Category::AddNewClip(std::string filePath, std::string fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef)
 {
-    
+    std::unique_ptr<Clip> newClip(new Clip(filePath, fileName, audioFormatManRef, windowRef));
+    clips->push_back(newClip);
 }
