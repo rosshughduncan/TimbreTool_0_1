@@ -2,7 +2,7 @@
   ==============================================================================
 
     Category.h
-    Created: 9 Aug 2020 6:43:18pm
+    Created: 16 Aug 2020 6:16:11pm
     Author:  Ross Duncan
 
   ==============================================================================
@@ -10,14 +10,15 @@
 
 #pragma once
 #include "Clip.h"
+#include <JuceHeader.h>
 
 class Category
 {
 private:
-    std::unique_ptr<std::vector<std::unique_ptr<Clip>>> clips;
+    std::unique_ptr<std::vector<Clip*>> clips;
     
 public:
     Category();
     ~Category();
-    void AddNewClip(std::string filePath, std::string fileName);
+    void AddNewClip(std::string filePath, std::string fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef);
 };

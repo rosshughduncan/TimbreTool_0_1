@@ -2,7 +2,7 @@
   ==============================================================================
 
     Category.cpp
-    Created: 9 Aug 2020 6:43:18pm
+    Created: 16 Aug 2020 6:16:11pm
     Author:  Ross Duncan
 
   ==============================================================================
@@ -12,15 +12,19 @@
 
 Category::Category()
 {
-    clips = std::make_unique<std::vector<std::unique_ptr<Clip>>>();
+    clips = std::make_unique<std::vector<Clip*>>();
 }
 
 Category::~Category()
 {
-    
+    // Delete all references to clip data in category
+    for (Clip *currentClip : *clips) {
+        delete currentClip;
+    }
 }
 
-Category::AddNewClip(std::string filePath, std::string fileName)
+void Category::AddNewClip(std::string filePath, std::string fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef)
 {
-    
+    Clip *newClip = new Clip(filePath, fileName, audioFormatManRef, windowRef);
+    clips->push_back(newClip);
 }

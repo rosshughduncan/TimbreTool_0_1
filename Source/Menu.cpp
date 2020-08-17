@@ -2,7 +2,7 @@
   ==============================================================================
 
     Menu.cpp
-    Created: 10 Aug 2020 7:11:43pm
+    Created: 16 Aug 2020 6:16:02pm
     Author:  Ross Duncan
 
   ==============================================================================
@@ -10,40 +10,44 @@
 
 #include "Menu.h"
 
-// : Thread::Thread("MainMenu") {}
-//Menu::Menu(std::unique_ptr<std::vector<std::unique_ptr<Clip>>> &clips, juce::AudioFormatManager &formatManRef) : clipsRef(clips), formatManReference(formatManRef)
-Menu::Menu(std::unique_ptr<std::vector<std::unique_ptr<Category>>> &categories, std::unique_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef) : categoryRef(categories), catListRef(categoryListRef), formatManReference(formatManRef)
+Menu::Menu(std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categories, std::shared_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef) : windowOption(0), windowFuncs(new std::array<WindowMethodRef, 8>()), menuFuncs(new std::array<std::function<void()>, 5>()), categoryRef(categories), catListRef(categoryListRef), formatManReference(formatManRef)
 {
-    // Set default windowing function to Rectangular
-    windowOption = 0;
-    
     // Set references to windowing method enums
-    windowFuncs = std::make_unique<WindowMethodRef[]>(8);
-    windowFuncs[0].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
-    windowFuncs[1].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
-    windowFuncs[2].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
-    windowFuncs[3].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hamming;
-    windowFuncs[4].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackman;
-    windowFuncs[5].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackmanHarris;
-    windowFuncs[6].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
-    windowFuncs[7].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
+//    windowFuncs[0].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
+//    windowFuncs[1].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
+//    windowFuncs[2].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
+//    windowFuncs[3].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hamming;
+//    windowFuncs[4].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackman;
+//    windowFuncs[5].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackmanHarris;
+//    windowFuncs[6].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
+//    windowFuncs[7].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
+//    const juce::dsp::WindowingFunction<double>::WindowingMethod &temp = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
+//    windowFuncs->at(0).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
+    
+    windowFuncs->at(0).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
+    windowFuncs->at(1).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
+    windowFuncs->at(2).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
+    windowFuncs->at(3).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hamming;
+    windowFuncs->at(4).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackman;
+    windowFuncs->at(5).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackmanHarris;
+    windowFuncs->at(6).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
+    windowFuncs->at(7).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
     
     // Set references to menu functions
-    menuFunctions = std::make_unique<VoidRef[]>(5);
-    menuFunctions[0].ref = Menu::transientDetectionSettings();
-    menuFunctions[1].ref = Menu::windowingSettings();
-    menuFunctions[2].ref = Menu::addNewAudioFile();
-    menuFunctions[3].ref = Menu::viewProperties();
-    menuFunctions[4].ref = Menu::exit();
+    menuFuncs->at(0) = [this]() { transientDetectionSettings(); };
+    menuFuncs->at(1) = [this]() { windowingSettings(); };
+    menuFuncs->at(2) = [this]() { addNewAudioFile(); };
+    menuFuncs->at(3) = [this]() { viewProperties(); };
+    menuFuncs->at(4) = [this]() { exit(); };
 }
 
 Menu::~Menu()
 {
+    delete menuFuncs;
+    delete windowFuncs;
     std::cout << "Menu killed";
-    //this->stopThread(1000);
 }
 
-//void Menu::run(std::unique_ptr<std::vector<Clip>> &clips, juce::AudioFormatManager &formatManRef)
 void Menu::run()
 {
     // Private variables
@@ -62,9 +66,8 @@ void Menu::run()
         menuOptionSelected = validShortInput() - 1;
         
         // Execute the appropriate function according to the input number
-//        auto currentFunc = menuFunctions[menuOptionSelected].ref.release();
-//        ((void(*)())currentFunc)();
-        ((void(*)())menuFunctions[menuOptionSelected].ref.release())();
+        menuFuncs->at(menuOptionSelected)();
+        //((void(*)())menuFunctions[menuOptionSelected].ref.release())();
     } while (running);
 }
 
@@ -159,7 +162,8 @@ std::string Menu::validString(std::string stringType)
     return temp;
 }
 
-std::unique_ptr<void> Menu::transientDetectionSettings()
+void Menu::transientDetectionSettings()
+//std::unique_ptr<void> Menu::transientDetectionSettings()
 {
     // Transient detection settings
     std::cout << std::endl << "Enter detection frequency crossover (Hz): ";
@@ -168,7 +172,8 @@ std::unique_ptr<void> Menu::transientDetectionSettings()
     highFreqWeight = validDoubleInput();
 }
 
-std::unique_ptr<void> Menu::windowingSettings()
+//std::unique_ptr<void> Menu::windowingSettings()
+void Menu::windowingSettings()
 {
     /**
      * Windowing settings
@@ -191,7 +196,8 @@ std::unique_ptr<void> Menu::windowingSettings()
     framesFile = doubleGreaterThan0();
 }
 
-std::unique_ptr<void> Menu::addNewAudioFile()
+//std::unique_ptr<void> Menu::addNewAudioFile()
+void Menu::addNewAudioFile()
 {
     // Enter details for new audio file
     std::cout << std::endl << "Enter the address of the file or drag it into this window:";
@@ -202,19 +208,30 @@ std::unique_ptr<void> Menu::addNewAudioFile()
     fileCategory = validString("category");
     
     // Find if category already exists. If not, add a new one
-    
-    
-    //Clip newClip = new Clip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref);
-    //std::unique_ptr<Clip> newClip(new Clip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref));
-    //clipsRef->push_back(newClip);
+    auto begin = catListRef->begin();
+    auto end = catListRef->end();
+    auto findResult = std::find(begin, end, fileCategory);
+    if (findResult != end) {
+        foundIndex = (int)std::distance(begin, findResult);
+        //categoryRef->at(foundIndex)->AddNewClip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref);
+        categoryRef->at(foundIndex)->AddNewClip(filePath, fileName, formatManReference, (windowFuncs->at(windowOption)).ref);
+    }
+    else {
+        catListRef->push_back(fileCategory);
+        std::shared_ptr<Category> newCategory(new Category());
+        newCategory->AddNewClip(filePath, fileName, formatManReference, (windowFuncs->at(windowOption)).ref);
+        categoryRef->push_back(newCategory);
+    }
 }
 
-std::unique_ptr<void> Menu::viewProperties()
+//std::unique_ptr<void> Menu::viewProperties()
+void Menu::viewProperties()
 {
     // View properties of existing file
 }
 
-std::unique_ptr<void> Menu::exit()
+//std::unique_ptr<void> Menu::exit()
+void Menu::exit()
 {
     // Exit by setting flag to false
     running = false;
