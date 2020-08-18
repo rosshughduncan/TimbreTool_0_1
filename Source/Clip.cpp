@@ -30,9 +30,17 @@ Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManage
     times.mins = juce::roundToInt(floor(fmod(rawMins, 60.0)));
     times.secs = juce::roundToInt(floor(fmod(rawLength, 60.0)));
     times.millisecs = juce::roundToInt(round(fmod(rawLength, 1.0) * 1000.0));
+    
+    // Apply the windowing processing
+    ProcessWindows();
 }
 
 Clip::~Clip()
 {
     delete audioBuffer;
+}
+
+void Clip::ProcessWindows()
+{
+    // Split buffer into frames
 }

@@ -13,17 +13,6 @@
 Menu::Menu(std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categories, std::shared_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef) : windowOption(0), windowFuncs(new std::array<WindowMethodRef, 8>()), menuFuncs(new std::array<std::function<void()>, 5>()), categoryRef(categories), catListRef(categoryListRef), formatManReference(formatManRef)
 {
     // Set references to windowing method enums
-//    windowFuncs[0].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
-//    windowFuncs[1].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
-//    windowFuncs[2].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
-//    windowFuncs[3].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hamming;
-//    windowFuncs[4].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackman;
-//    windowFuncs[5].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackmanHarris;
-//    windowFuncs[6].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
-//    windowFuncs[7].ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
-//    const juce::dsp::WindowingFunction<double>::WindowingMethod &temp = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
-//    windowFuncs->at(0).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
-    
     windowFuncs->at(0).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
     windowFuncs->at(1).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
     windowFuncs->at(2).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
@@ -163,7 +152,6 @@ std::string Menu::validString(std::string stringType)
 }
 
 void Menu::transientDetectionSettings()
-//std::unique_ptr<void> Menu::transientDetectionSettings()
 {
     // Transient detection settings
     std::cout << std::endl << "Enter detection frequency crossover (Hz): ";
@@ -172,7 +160,6 @@ void Menu::transientDetectionSettings()
     highFreqWeight = validDoubleInput();
 }
 
-//std::unique_ptr<void> Menu::windowingSettings()
 void Menu::windowingSettings()
 {
     /**
@@ -196,7 +183,6 @@ void Menu::windowingSettings()
     framesFile = doubleGreaterThan0();
 }
 
-//std::unique_ptr<void> Menu::addNewAudioFile()
 void Menu::addNewAudioFile()
 {
     // Enter details for new audio file
@@ -213,7 +199,6 @@ void Menu::addNewAudioFile()
     auto findResult = std::find(begin, end, fileCategory);
     if (findResult != end) {
         foundIndex = (int)std::distance(begin, findResult);
-        //categoryRef->at(foundIndex)->AddNewClip(filePath, fileName, formatManReference, windowFuncs[windowOption].ref);
         categoryRef->at(foundIndex)->AddNewClip(filePath, fileName, formatManReference, (windowFuncs->at(windowOption)).ref);
     }
     else {
@@ -224,13 +209,11 @@ void Menu::addNewAudioFile()
     }
 }
 
-//std::unique_ptr<void> Menu::viewProperties()
 void Menu::viewProperties()
 {
     // View properties of existing file
 }
 
-//std::unique_ptr<void> Menu::exit()
 void Menu::exit()
 {
     // Exit by setting flag to false

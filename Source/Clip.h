@@ -19,6 +19,7 @@ class Clip
 public:
     Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef);
     ~Clip();
+    void ProcessWindows();
 private:
     // Properties of a clip:
     // File path, number of samples, number of channels, sample rate, time, name, audio data, window function
