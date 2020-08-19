@@ -10,7 +10,19 @@
 
 #include "Menu.h"
 
-Menu::Menu(std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categories, std::shared_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef) : windowOption(0), windowFuncs(new std::array<WindowMethodRef, 8>()), menuFuncs(new std::array<std::function<void()>, 5>()), categoryRef(categories), catListRef(categoryListRef), formatManReference(formatManRef)
+/**
+ * By default:
+ * > Windowing method is set to rectangular (0)
+ * > Length of frames in each file is set to 10 ms
+ */
+
+Menu::Menu(std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categories, std::shared_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef) :
+        windowOption(0),
+        framesFile(10.0),
+        windowFuncs(new std::array<WindowMethodRef, 8>()),
+        menuFuncs(new std::array<std::function<void()>, 5>()), categoryRef(categories),
+        catListRef(categoryListRef),
+        formatManReference(formatManRef)
 {
     // Set references to windowing method enums
     windowFuncs->at(0).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
@@ -139,7 +151,8 @@ std::string Menu::validString(std::string stringType)
     std::string temp;
     
     while (true) {
-        std::cin >> temp;
+        //std::cin >> temp;
+        std::getline(std::cin, temp);
         if (temp.length() == 0) {
             std::cout << std::endl << "You have not entered a " << stringType << ". Please try again." << std::endl;
         }
@@ -162,10 +175,6 @@ void Menu::transientDetectionSettings()
 
 void Menu::windowingSettings()
 {
-    /**
-     * Windowing settings
-     */
-    
     // Show windowing settings
     std::cout << std::endl << "Enter a number from the following list of windowing functions:"
         << std::endl << "1) Rectangular"
@@ -199,12 +208,12 @@ void Menu::addNewAudioFile()
     auto findResult = std::find(begin, end, fileCategory);
     if (findResult != end) {
         foundIndex = (int)std::distance(begin, findResult);
-        categoryRef->at(foundIndex)->AddNewClip(filePath, fileName, formatManReference, (windowFuncs->at(windowOption)).ref);
+        categoryRef->at(foundIndex)->AddNewClip(filePath, fileName, formatManReference, (windowFuncs->at(windowOption)).ref, framesFile);
     }
     else {
         catListRef->push_back(fileCategory);
         std::shared_ptr<Category> newCategory(new Category());
-        newCategory->AddNewClip(filePath, fileName, formatManReference, (windowFuncs->at(windowOption)).ref);
+        newCategory->AddNewClip(filePath, fileName, formatManReference, (windowFuncs->at(windowOption)).ref, framesFile);
         categoryRef->push_back(newCategory);
     }
 }

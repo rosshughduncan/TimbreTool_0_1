@@ -10,7 +10,7 @@
 
 #include "Clip.h"
 
-Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef) : path(filePath), name(fileName), windowMethodRef(windowRef)
+Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef, double &framesFileRef) : path(filePath), name(fileName), windowMethodRef(windowRef)
 {
     std::cout << "Loading new clip...";
     
@@ -32,7 +32,7 @@ Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManage
     times.millisecs = juce::roundToInt(round(fmod(rawLength, 1.0) * 1000.0));
     
     // Apply the windowing processing
-    ProcessWindows();
+    ProcessWindows(framesFileRef);
 }
 
 Clip::~Clip()
@@ -40,7 +40,14 @@ Clip::~Clip()
     delete audioBuffer;
 }
 
-void Clip::ProcessWindows()
+void Clip::ProcessWindows(double &framesFileRef)
 {
-    // Split buffer into frames
+    /**
+    * Split buffer into frames
+    */
+    
+    // Calculate sample length per frame with given sample rate
+    numSamplesSplit = ceil(framesFileRef * 0.001 * thisSampleRate);
+    
+    // Create frame objects
 }

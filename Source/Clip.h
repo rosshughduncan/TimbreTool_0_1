@@ -17,14 +17,14 @@
 class Clip
 {
 public:
-    Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef);
+    Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef, double &framesFileRef);
     ~Clip();
-    void ProcessWindows();
+    void ProcessWindows(double &framesFileRef);
 private:
     // Properties of a clip:
     // File path, number of samples, number of channels, sample rate, time, name, audio data, window function
     std::string path, name;
-    int numSamples, numChannels, thisSampleRate;
+    int numSamples, numChannels, thisSampleRate, numSamplesSplit;
     juce::AudioBuffer<float>* audioBuffer;
     juce::dsp::WindowingFunction<double>::WindowingMethod &windowMethodRef;
     splitTime times;
