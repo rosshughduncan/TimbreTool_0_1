@@ -152,6 +152,7 @@ std::string Menu::validString(std::string stringType)
     
     while (true) {
         //std::cin >> temp;
+        std::cin.ignore();
         std::getline(std::cin, temp);
         if (temp.length() == 0) {
             std::cout << std::endl << "You have not entered a " << stringType << ". Please try again." << std::endl;
@@ -194,9 +195,13 @@ void Menu::windowingSettings()
 
 void Menu::addNewAudioFile()
 {
+    // Store current path at front of file path
+    filePath = fs::current_path();
+    
     // Enter details for new audio file
-    std::cout << std::endl << "Enter the address of the file or drag it into this window:";
-    filePath = validString("file path");
+    std::cout << std::endl << "Enter the name of the audio file stored in the AudioFiles folder (include any sub-directories and file extension, e.g. .wav):";
+    //filePath = validString("file path");
+    filePath = filePath + validString("file");
     std::cout << std::endl << "Enter a name for this file:";
     fileName = validString("name");
     std::cout << std::endl << "Enter a category (e.g. snare, bass, hi-hat, trumpet):";

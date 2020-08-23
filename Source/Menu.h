@@ -15,9 +15,17 @@
 #include <array>
 #include <algorithm>
 #include <functional>
+#include <filesystem>
+#include <iostream>
+namespace fs = std::filesystem;
 
 class Menu
 {
+public:
+    Menu(std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categories, std::shared_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef);
+    ~Menu();
+    void run();
+    
 private:
     bool running;
     short menuOptionSelected, validShortInput(), windowOption;
@@ -30,9 +38,4 @@ private:
     std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categoryRef;
     std::shared_ptr<std::vector<std::string>> &catListRef;
     juce::AudioFormatManager &formatManReference;
-
-public:
-    Menu(std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categories, std::shared_ptr<std::vector<std::string>> &categoryListRef, juce::AudioFormatManager &formatManRef);
-    ~Menu();
-    void run();
 };
