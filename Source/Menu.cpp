@@ -195,9 +195,9 @@ void Menu::windowingSettings()
 
 void Menu::addNewAudioFile()
 {
-    // Store current path at front of file path
+    // Store current path at front of file path (audio files folder)
     filePath = fs::current_path();
-    
+    filePath += "/AudioFiles/";
     // Enter details for new audio file
     std::cout << std::endl << "Enter the name of the audio file stored in the AudioFiles folder (include any sub-directories and file extension, e.g. .wav):";
     //filePath = validString("file path");

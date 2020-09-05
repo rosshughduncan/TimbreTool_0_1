@@ -16,7 +16,9 @@ Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManage
     
     // Create file reader and load data into buffer
     juce::File file(path);
-    juce::AudioFormatReader* formatReader = audioFormatManRef.createReaderFor(file);
+    juce::AudioFormatReader *formatReader = (juce::AudioFormatReader*) malloc(120);
+    formatReader = audioFormatManRef.createReaderFor(file);
+    //juce::String test = formatReader->getFormatName();
     numSamples = juce::roundToInt(formatReader->lengthInSamples);
     numChannels = formatReader->numChannels;
     thisSampleRate = formatReader->sampleRate;
@@ -33,6 +35,9 @@ Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManage
     
     // Apply the windowing processing
     ProcessWindows(framesFileRef);
+    
+    // Release format reader
+    free(formatReader);
 }
 
 Clip::~Clip()
