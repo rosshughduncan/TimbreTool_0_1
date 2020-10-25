@@ -24,7 +24,8 @@ private:
     // Properties of a clip:
     // File path, number of samples, number of channels, sample rate, time, name, audio data, window function
     std::string path, name;
-    int numSamples, numChannels, thisSampleRate, numSamplesSplit;
+    int /*numSamples, numChannels,*/ thisSampleRate, numSamplesSplit;
+    std::unique_ptr<int> numSamples, numChannels;
     juce::AudioBuffer<float>* audioBuffer;
     juce::dsp::WindowingFunction<double>::WindowingMethod &windowMethodRef;
     splitTime times;
