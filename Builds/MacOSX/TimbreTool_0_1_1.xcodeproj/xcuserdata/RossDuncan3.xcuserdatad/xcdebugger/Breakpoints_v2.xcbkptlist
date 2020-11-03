@@ -120,7 +120,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "04F0C793-DE91-44DF-B68E-0D407DE3EDC3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/Clip.cpp"
@@ -130,6 +130,54 @@
             endingLineNumber = "26"
             landmarkName = "Clip::Clip(filePath, fileName, audioFormatManRef, windowRef, framesFileRef)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6FF82268-0AF0-45B7-99E5-5BECE03D43FE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "385"
+            endingLineNumber = "385"
+            landmarkName = "AudioBuffer"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "6FF82268-0AF0-45B7-99E5-5BECE03D43FE - 5060f0ea3de1b4e9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;float&gt;::setSize(int, int, bool, bool, bool)"
+                  moduleName = "TimbreTool_0_1_1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/RossDuncan3/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "385"
+                  endingLineNumber = "385"
+                  offsetFromSymbolStart = "120">
+               </Location>
+               <Location
+                  uuid = "6FF82268-0AF0-45B7-99E5-5BECE03D43FE - d288305cf349f553"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "juce::AudioBuffer&lt;double&gt;::setSize(int, int, bool, bool, bool)"
+                  moduleName = "TimbreTool_0_1_1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/RossDuncan3/JUCE/modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "385"
+                  endingLineNumber = "385"
+                  offsetFromSymbolStart = "120">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

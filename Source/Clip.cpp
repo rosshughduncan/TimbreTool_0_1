@@ -10,7 +10,7 @@
 
 #include "Clip.h"
 
-Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef, double &framesFileRef) : path(filePath), name(fileName), /*numSamples(0), numChannels(2),*/numSamples(std::make_unique<int>(0)), numChannels(std::make_unique<int>(2)), windowMethodRef(windowRef)
+Clip::Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef, double &framesFileRef) : path(filePath), name(fileName), /*numSamples(0), numChannels(2),*/numSamples(std::make_unique<int>(0)), numChannels(std::make_unique<int>(2)), audioBuffer(new juce::AudioBuffer<float>()), windowMethodRef(windowRef)
 {
     std::cout << "Loading new clip...";
     
@@ -54,6 +54,7 @@ void Clip::ProcessWindows(double &framesFileRef)
     
     // Calculate sample length per frame with given sample rate
     numSamplesSplit = ceil(framesFileRef * 0.001 * thisSampleRate);
-    std::cout << "This is wehre";
+    
+    
     // Create frame objects
 }
