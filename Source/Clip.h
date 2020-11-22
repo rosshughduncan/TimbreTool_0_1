@@ -13,20 +13,27 @@
 #include <JuceHeader.h>
 #include "SplitTime.h"
 #include <cmath>
+#include "Frames.h"
 
 class Clip
 {
 public:
-    Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef, double &framesFileRef);
+    Clip(std::string &filePath, std::string &fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<float>::WindowingMethod &windowRef, double &framesFileRef);
     ~Clip();
     void ProcessWindows(double &framesFileRef);
 private:
     // Properties of a clip:
-    // File path, number of samples, number of channels, sample rate, time, name, audio data, window function
+    // File path, number of samples, number of channels, number of frames, sample rate, time, name, window function to be used
     std::string path, name;
-    int /*numSamples, numChannels,*/ thisSampleRate, numSamplesSplit;
-    std::unique_ptr<int> numSamples, numChannels;
-    juce::AudioBuffer<float>* audioBuffer;
-    juce::dsp::WindowingFunction<double>::WindowingMethod &windowMethodRef;
+    int numSamples, thisSampleRate, numSamplesSplit, numFrames, currentStartSample, currentSampleRange;
+    juce::dsp::WindowingFunction<float>::WindowingMethod &windowMethodRef;
+    juce::dsp::WindowingFunction<float> clipWindowFunction;
     splitTime times;
+    
+    // Audio data and frames
+    juce::AudioBuffer<float>* audioBuffer;
+    std::unique_ptr<std::vector<Frames*>> clipFrames;
+    
+    // Format reader
+    juce::AudioFormatReader *formatReader;
 };

@@ -6,6 +6,8 @@
   <MAINGROUP id="rwqhqq" name="TimbreTool_0_1_1">
     <GROUP id="{9FEF16F0-14AB-DA45-0100-F0AFE8C63DF3}" name="Source">
       <GROUP id="{39330460-6427-23C9-3F08-A8B731FB7E85}" name="Data">
+        <FILE id="ACzuKL" name="Frames.cpp" compile="1" resource="0" file="Source/Frames.cpp"/>
+        <FILE id="JewzTf" name="Frames.h" compile="0" resource="0" file="Source/Frames.h"/>
         <FILE id="MqAhrJ" name="Clip.cpp" compile="1" resource="0" file="Source/Clip.cpp"/>
         <FILE id="NY1WOT" name="Clip.h" compile="0" resource="0" file="Source/Clip.h"/>
         <FILE id="uR6JSp" name="Category.cpp" compile="1" resource="0" file="Source/Category.cpp"/>

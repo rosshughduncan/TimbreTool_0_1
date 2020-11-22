@@ -23,7 +23,7 @@ Category::~Category()
     }
 }
 
-void Category::AddNewClip(std::string filePath, std::string fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<double>::WindowingMethod &windowRef, double &framesFileRef)
+void Category::AddNewClip(std::string filePath, std::string fileName, juce::AudioFormatManager &audioFormatManRef, juce::dsp::WindowingFunction<float>::WindowingMethod &windowRef, double &framesFileRef)
 {
     Clip *newClip = new Clip(filePath, fileName, audioFormatManRef, windowRef, framesFileRef);
     clips->push_back(newClip);

@@ -57,6 +57,10 @@
 			isa = PBXBuildFile;
 			fileRef = 57FD0B89821AFD329C5A4CD0;
 		};
+		F9E9642F8E559900640C5B4B = {
+			isa = PBXBuildFile;
+			fileRef = D6BB77244AD9227367B9DCBE;
+		};
 		2AA2C2C605BE6D86E057869F = {
 			isa = PBXBuildFile;
 			fileRef = C8FDCF70E5A291AEA393544D;
@@ -140,6 +144,13 @@
 			lastKnownFileType = sourcecode.c.h;
 			name = Menu.h;
 			path = ../../Source/Menu.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		11C48117D1F79A414FCD0BDF = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Frames.h;
+			path = ../../Source/Frames.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		12B88B6021C9C543410128E5 = {
@@ -387,6 +398,13 @@
 			path = "~/JUCE/modules/juce_audio_basics";
 			sourceTree = "<absolute>";
 		};
+		D6BB77244AD9227367B9DCBE = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Frames.cpp;
+			path = ../../Source/Frames.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		D95A55D534E7BB2BAA7E7FBC = {
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
@@ -453,6 +471,8 @@
 		3CB4E252F4F7F6A3A95FC668 = {
 			isa = PBXGroup;
 			children = (
+				D6BB77244AD9227367B9DCBE,
+				11C48117D1F79A414FCD0BDF,
 				C8FDCF70E5A291AEA393544D,
 				E256043A226225DE2CB22810,
 				A16A351161214F232713423E,
@@ -612,7 +632,7 @@
 					"JucePlugin_Build_Unity=0",
 					"JUCE_DISPLAY_SPLASH_SCREEN=1",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_PROJUCER_VERSION=0x60004",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_formats=1",
@@ -637,9 +657,14 @@
 				);
 				INSTALL_PATH = "/usr/bin";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"$(HOME)/JUCE/modules",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.TimbreTool_0_1_1;
 				PRODUCT_NAME = "TimbreTool_0_1_1";
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
 			};
 			name = Debug;
 		};
@@ -671,7 +696,7 @@
 					"JucePlugin_Build_Unity=0",
 					"JUCE_DISPLAY_SPLASH_SCREEN=1",
 					"JUCE_USE_DARK_SPLASH_SCREEN=1",
-					"JUCE_PROJUCER_VERSION=0x60001",
+					"JUCE_PROJUCER_VERSION=0x60004",
 					"JUCE_MODULE_AVAILABLE_juce_audio_basics=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_devices=1",
 					"JUCE_MODULE_AVAILABLE_juce_audio_formats=1",
@@ -697,9 +722,14 @@
 				INSTALL_PATH = "/usr/bin";
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_HEADER_SEARCH_PATHS = (
+					"../../JuceLibraryCode",
+					"$(HOME)/JUCE/modules",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.TimbreTool_0_1_1;
 				PRODUCT_NAME = "TimbreTool_0_1_1";
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = "i386 x86_64 arm64 arm64e";
 			};
 			name = Release;
 		};
@@ -830,6 +860,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9E9642F8E559900640C5B4B,
 				2AA2C2C605BE6D86E057869F,
 				27149847D2637ADDE4C5BA82,
 				A39F64E66BE35D94D5F9FED5,
@@ -885,7 +916,7 @@
 		79081500F4A88DF61E9128A7 = {
 			isa = PBXProject;
 			buildConfigurationList = A8E46D9387144937C0C8A491;
-			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = ""; };
+			attributes = { LastUpgradeCheck = 1200; ORGANIZATIONNAME = ""; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = D11613B147F9DF0D4AF6B0C0;

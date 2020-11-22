@@ -19,8 +19,8 @@
 
 struct WindowMethodRef
 {
-    juce::dsp::WindowingFunction<double>::WindowingMethod &ref;
-    juce::dsp::WindowingFunction<double>::WindowingMethod dummy;
+    juce::dsp::WindowingFunction<float>::WindowingMethod &ref;
+    juce::dsp::WindowingFunction<float>::WindowingMethod dummy;
     WindowMethodRef() : ref(dummy) {}
 };
 

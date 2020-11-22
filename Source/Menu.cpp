@@ -25,14 +25,14 @@ Menu::Menu(std::shared_ptr<std::vector<std::shared_ptr<Category>>> &categories, 
         formatManReference(formatManRef)
 {
     // Set references to windowing method enums
-    windowFuncs->at(0).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::rectangular;
-    windowFuncs->at(1).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::triangular;
-    windowFuncs->at(2).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hann;
-    windowFuncs->at(3).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::hamming;
-    windowFuncs->at(4).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackman;
-    windowFuncs->at(5).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::blackmanHarris;
-    windowFuncs->at(6).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::flatTop;
-    windowFuncs->at(7).ref = juce::dsp::WindowingFunction<double>::WindowingMethod::kaiser;
+    windowFuncs->at(0).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::rectangular;
+    windowFuncs->at(1).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::triangular;
+    windowFuncs->at(2).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::hann;
+    windowFuncs->at(3).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::hamming;
+    windowFuncs->at(4).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::blackman;
+    windowFuncs->at(5).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::blackmanHarris;
+    windowFuncs->at(6).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::flatTop;
+    windowFuncs->at(7).ref = juce::dsp::WindowingFunction<float>::WindowingMethod::kaiser;
     
     // Set references to menu functions
     menuFuncs->at(0) = [this]() { transientDetectionSettings(); };
