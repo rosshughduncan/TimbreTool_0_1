@@ -10,7 +10,7 @@
 
 #include "Frames.h"
 
-Frames::Frames(int startSample, int numSamples, juce::AudioBuffer<float> *&bufferToReadFrom, juce::AudioFormatReader *formatReaderRef, juce::dsp::WindowingFunction<float> &clipWindowFunctionRef) :  frameAudioBuffers(new float*[formatReaderRef->numChannels]()), frameFFTBuffers(new float*[formatReaderRef->numChannels]()), frameFFT(512)
+Frames::Frames(int startSample, int numSamples, juce::AudioBuffer<float> *&bufferToReadFrom, juce::AudioFormatReader *formatReaderRef, juce::dsp::WindowingFunction<float> &clipWindowFunctionRef) :  frameAudioBuffers(new float*[formatReaderRef->numChannels]()), frameFFTBuffers(new float*[formatReaderRef->numChannels]()), frameFFT(9)
 {
     // Set size of buffers
     for (int i = 0; i < formatReaderRef->numChannels; i++) {
@@ -35,11 +35,31 @@ Frames::Frames(int startSample, int numSamples, juce::AudioBuffer<float> *&buffe
     
     // Apply windowing function and FFT
     for (int i = 0; i < formatReaderRef->numChannels; i++) {
-        clipWindowFunctionRef.multiplyWithWindowingTable(frameAudioBuffers[i], 64);
+        clipWindowFunctionRef.multiplyWithWindowingTable(frameAudioBuffers[i], 512);
         for (int j = 0; j < numSamples; j++) {
             frameFFTBuffers[i][j] = frameAudioBuffers[i][j];
         }
-        frameFFT.performFrequencyOnlyForwardTransform(frameFFTBuffers[i]);
+        
+        // TESTING ONLY
+        std::cout << "\n\n\nTEST Pre-FFT ";
+        int fftSize = frameFFT.getSize();
+        int testSize = 2 * fftSize;
+        float *testBuffer = new float[testSize]();
+        for (int i = 0; i < fftSize; i++) {
+            testBuffer[i] = 0.00001 * i;
+            std::cout << testBuffer[i] << " ";
+        }
+        for (int i = fftSize; i < testSize; i++) {
+            testBuffer[i] = 0.0;
+            std::cout << testBuffer[i];
+        }
+        frameFFT.performFrequencyOnlyForwardTransform(testBuffer);
+        std::cout << "\nTEST Post-FFT";
+        for (; i < testSize; i++) {
+            std::cout << " " << testBuffer[i];
+        }
+        
+        //frameFFT.performFrequencyOnlyForwardTransform(frameFFTBuffers[i]);
     }
     
     // TESTING ONLY

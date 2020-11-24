@@ -2,7 +2,7 @@
 
 <JUCERPROJECT id="J0UwNH" name="TimbreTool_0_1_1" projectType="consoleapp"
               useAppConfig="0" addUsingNamespaceToJuceHeader="0" displaySplashScreen="1"
-              jucerFormatVersion="1" cppLanguageStandard="17">
+              jucerFormatVersion="1" cppLanguageStandard="17" jucerVersion="5.4.1">
   <MAINGROUP id="rwqhqq" name="TimbreTool_0_1_1">
     <GROUP id="{9FEF16F0-14AB-DA45-0100-F0AFE8C63DF3}" name="Source">
       <GROUP id="{39330460-6427-23C9-3F08-A8B731FB7E85}" name="Data">
