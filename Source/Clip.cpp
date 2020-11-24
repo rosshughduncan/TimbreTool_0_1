@@ -66,13 +66,26 @@ void Clip::ProcessWindows(double &framesFileRef)
     // Read audio into each frame, ensuring the reading does not go outside the bounds of the audio buffer. Each frame executes the windowing function individually
     currentStartSample = 0;
     currentSampleRange = numSamplesSplit;
-    for (int i = 1; i <= numFrames; i++) {
-        if (currentStartSample + numSamplesSplit > numSamples) {
-            currentSampleRange = numSamples - currentStartSample;
+    Frames *frame;
+    //for (int i = 1; i <= numFrames; i++) {
+    for (int i = 0; i <= numFrames; i++) {
+        try {
+            if (currentStartSample + numSamplesSplit > numSamples) {
+                currentSampleRange = numSamples - currentStartSample;
+            }
+            frame = new Frames(currentStartSample, currentSampleRange, audioBuffer, formatReader, clipWindowFunction);
+            clipFrames->push_back(frame);
+            currentStartSample += currentSampleRange;
+            
+            // TESTING ONLY
+            if (i == 150) {
+                std::cout << "problems";
+            }
         }
-        Frames *frame = new Frames(currentStartSample, currentSampleRange, audioBuffer, formatReader, clipWindowFunction);
-        clipFrames->push_back(frame);
+        catch (const std::runtime_error& e) {
+            std::cout << "here";
+        }
     }
     
-    std::cout << "here";
+    delete frame;
 }

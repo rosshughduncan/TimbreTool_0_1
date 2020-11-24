@@ -18,5 +18,6 @@ public:
     ~Frames();
     
 private:
-    float **frameAudioBuffers;
+    float **frameAudioBuffers, **frameFFTBuffers;
+    juce::dsp::FFT frameFFT;
 };
