@@ -78,9 +78,9 @@ void Clip::ProcessWindows(double &framesFileRef)
             currentStartSample += currentSampleRange;
             
             // TESTING ONLY
-            if (i == numFrames) {
-                std::cout << "problems";
-            }
+//            if (i == numFrames) {
+//                std::cout << "problems";
+//            }
         }
         catch (const std::runtime_error& e) {
             std::cout << "here";

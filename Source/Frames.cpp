@@ -41,23 +41,23 @@ Frames::Frames(int startSample, int numSamples, juce::AudioBuffer<float> *&buffe
         }
         
         // TESTING ONLY
-        std::cout << "\n\n\nTEST Pre-FFT ";
-        int fftSize = frameFFT.getSize();
-        int testSize = 2 * fftSize;
-        float *testBuffer = new float[testSize]();
-        for (int i = 0; i < fftSize; i++) {
-            testBuffer[i] = 0.00001 * i;
-            std::cout << testBuffer[i] << " ";
-        }
-        for (int i = fftSize; i < testSize; i++) {
-            testBuffer[i] = 0.0;
-            std::cout << testBuffer[i];
-        }
-        frameFFT.performFrequencyOnlyForwardTransform(testBuffer);
-        std::cout << "\nTEST Post-FFT";
-        for (; i < testSize; i++) {
-            std::cout << " " << testBuffer[i];
-        }
+//        std::cout << "\n\n\nTEST Pre-FFT ";
+//        int fftSize = frameFFT.getSize();
+//        int testSize = 2 * fftSize;
+//        float *testBuffer = new float[testSize]();
+//        for (int i = 0; i < fftSize; i++) {
+//            testBuffer[i] = 0.00001 * i;
+//            std::cout << testBuffer[i] << " ";
+//        }
+//        for (int i = fftSize; i < testSize; i++) {
+//            testBuffer[i] = 0.0;
+//            std::cout << testBuffer[i];
+//        }
+//        frameFFT.performFrequencyOnlyForwardTransform(testBuffer);
+//        std::cout << "\nTEST Post-FFT";
+//        for (; i < testSize; i++) {
+//            std::cout << " " << testBuffer[i];
+//        }
         
         //frameFFT.performFrequencyOnlyForwardTransform(frameFFTBuffers[i]);
     }
