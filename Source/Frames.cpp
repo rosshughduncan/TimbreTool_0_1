@@ -10,71 +10,38 @@
 
 #include "Frames.h"
 
-Frames::Frames(int startSample, int numSamples, juce::AudioBuffer<float> *&bufferToReadFrom, juce::AudioFormatReader *formatReaderRef, juce::dsp::WindowingFunction<float> &clipWindowFunctionRef) :  frameAudioBuffers(new float*[formatReaderRef->numChannels]()), frameFFTBuffers(new float*[formatReaderRef->numChannels]()), frameFFT(9)
+Frames::Frames(int startSample, int numSamples, juce::AudioBuffer<float> *&bufferToReadFrom, juce::AudioFormatReader *formatReaderRef, juce::dsp::WindowingFunction<float> &clipWindowFunctionRef) :
+    frameAudioBuffers(new std::complex<float>*[formatReaderRef->numChannels]()), frameFFTBuffers(new std::complex<float>*[formatReaderRef->numChannels]()), frameFFT(9)
 {
     // Set size of buffers
     for (int i = 0; i < formatReaderRef->numChannels; i++) {
-        frameAudioBuffers[i] = new float[numSamples]();
-        frameFFTBuffers[i] = new float[numSamples]();
+        frameAudioBuffers[i] = new std::complex<float>[numSamples]();
+        
+        // Output array is the FFT size
+        frameFFTBuffers[i] = new std::complex<float>[frameFFT.getSize()];
     }
     
-    // Load samples into buffers
+    // Load samples into frameAudioBuffers
     for (int i = 0; i < formatReaderRef->numChannels; i++) {
         for (int j = 0; j < numSamples; j++) {
             frameAudioBuffers[i][j] = bufferToReadFrom->getSample(i, j);
         }
     }
     
-    // TESTING ONLY
-    // Display contents of samples
-    std::cout << "Pre-windowing: ";
-    for (int i = 0; i < numSamples; i++) {
-        std::cout << std::to_string(frameAudioBuffers[0][i])/* << "," << std::to_string(frameAudioBuffers[1][i])*/ << "\n";
-    }
-    std::cout << std::endl;
-    
-    // Apply windowing function and FFT
+    // Apply windowing function and FFT (out of place
     for (int i = 0; i < formatReaderRef->numChannels; i++) {
-        clipWindowFunctionRef.multiplyWithWindowingTable(frameAudioBuffers[i], 512);
-        for (int j = 0; j < numSamples; j++) {
-            frameFFTBuffers[i][j] = frameAudioBuffers[i][j];
-        }
-        
-        // TESTING ONLY
-//        std::cout << "\n\n\nTEST Pre-FFT ";
-//        int fftSize = frameFFT.getSize();
-//        int testSize = 2 * fftSize;
-//        float *testBuffer = new float[testSize]();
-//        for (int i = 0; i < fftSize; i++) {
-//            testBuffer[i] = 0.00001 * i;
-//            std::cout << testBuffer[i] << " ";
-//        }
-//        for (int i = fftSize; i < testSize; i++) {
-//            testBuffer[i] = 0.0;
-//            std::cout << testBuffer[i];
-//        }
-//        frameFFT.performFrequencyOnlyForwardTransform(testBuffer);
-//        std::cout << "\nTEST Post-FFT";
-//        for (; i < testSize; i++) {
-//            std::cout << " " << testBuffer[i];
-//        }
-        
-        //frameFFT.performFrequencyOnlyForwardTransform(frameFFTBuffers[i]);
+        clipWindowFunctionRef.multiplyWithWindowingTable((float*)frameAudioBuffers[i], 512);
+        frameFFT.perform(frameAudioBuffers[i], frameFFTBuffers[i], false);
     }
-    
-    // TESTING ONLY
-    // Display contents of samples
-    std::cout << "With window function applied: ";
-    for (int i = 0; i < numSamples; i++) {
-        std::cout << std::to_string(frameAudioBuffers[0][i])/* << "," << std::to_string(frameAudioBuffers[1][i])*/ << "\n";
-    }
-    std::cout << std::endl;
     
     // TESTING ONLY
     // Display contents of FFT
     std::cout << "FFT output: ";
-    for (int i = 0; i < numSamples; i++) {
-        std::cout << std::to_string(frameFFTBuffers[0][i])/* << "," << std::to_string(frameFFTBuffers[1][i])*/ << "\n";
+    for (int i = 0; i < formatReaderRef->numChannels; i++) {
+        std::cout << "Channel " << i << "\n";
+        for (int j = 0; j < frameFFT.getSize(); j++) {
+            std::cout << frameFFTBuffers[i][j].real() << "\n";
+        }
     }
     std::cout << std::endl;
 }
