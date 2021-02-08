@@ -37,7 +37,12 @@ Frames::Frames(int startSample, int numSamples, juce::AudioBuffer<float> *&buffe
     // TESTING ONLY
     // Display contents of FFT
     std::cout << "FFT output: ";
-    for (int i = 0; i < formatReaderRef->numChannels; i++) {
+    int testNumChannels = formatReaderRef->numChannels;
+    //for (int i = 0; i < formatReaderRef->numChannels; i++) {
+    //for (int i = 0; i < formatReaderRef->numChannels; ++i) {
+    
+    // i not incrementing!!!
+    for (int i = 0; i < testNumChannels; i++) {
         std::cout << "Channel " << i << "\n";
         for (int j = 0; j < frameFFT.getSize(); j++) {
             std::cout << frameFFTBuffers[i][j].real() << "\n";
